@@ -7,41 +7,32 @@ public class Cycle {
     private static final Cycle c = new Cycle();
     private static final int deposit = (int) (Math.random() * 100);
     public int total;
-    private Date d;
+    private Date date;
 
     public Cycle() {
         balance = deposit - 10;
     }
 
-    void add(){
-        if(total < Integer.MAX_VALUE) {
+    void add() {
+        if (total < Integer.MAX_VALUE) {
             total++;
         }
     }
 
-    public void MutableClass(){
-        d = new Date();
+    public void MutableClass() {
+        date = new Date();
     }
 
     public Date getDate() {
-        return d;
+        return date;
     }
 
     public static void main(String[] args) {
         System.out.println("The account balance is " + c.balance);
     }
 
-    public boolean equals(Object o){
-        try{
-            for (float i = 0; i < 5.0f; i++) {
-                System.out.println(i);
-            }
-        }catch(Throwable e){
-            System.out.println("Exception caught" + e);
-        }
-
-
-        if(o == this){
+    public boolean equals(Object o) {
+        if (o == this) {
             return true;
         }
         return false;
