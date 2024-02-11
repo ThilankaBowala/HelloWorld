@@ -1,8 +1,39 @@
 package com.example.helloworld;
 
+import java.text.Normalizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class HelloWorld {
     public static void main(String[] args) {
         System.out.println("Hello world");
+        var obj = new HelloWorld();
+        obj.validateUserInputForXXS();
+    }
+
+    /*
+     * Example for: IDS01-J. Normalize strings before validating them
+     * This is to prevent accepting untrusted input strings
+     * ex: an application's strategy for avoiding cross-site scripting (XSS) vulnerabilities may include
+     * forbidding <script> tags in inputs
+     */
+    public void validateUserInputForXXS() {
+        // String s may be user controllable (input string from a form)
+        // \uFE64 is normalized to < and \uFE65 is normalized to > using the NFKC normalization form
+        String str1 = "\uFE64" + "script" + "\uFE65";
+
+        /* Validate the input string, to check script tags: Check for angle brackets */
+        Pattern pattern1 = Pattern.compile("[<>]");
+        Matcher matcher = pattern1.matcher(str1);
+        if (matcher.find()) {
+            // Found black listed tag
+            throw new IllegalStateException();
+        } else {
+            // do the work
+        }
+
+        // Normalize the input string
+        str1 = Normalizer.normalize(str1, Normalizer.Form.NFKC);
     }
 
     /*
