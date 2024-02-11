@@ -18,13 +18,15 @@ public class HelloWorld {
      * forbidding <script> tags in inputs
      */
     public void validateUserInputForXXS() {
-        // String s may be user controllable (input string from a form)
-        // \uFE64 is normalized to < and \uFE65 is normalized to > using the NFKC normalization form
-        String str1 = "\uFE64" + "script" + "\uFE65";
+        String str1 = "";
+
+        /* String 'strInput' may be user controllable :input string from a form
+           \uFE64 is normalized to < and \uFE65 is normalized to > using the NFKC normalization form */
+        String strInput = "\uFE64" + "script" + "\uFE65";
 
         /* Validate the input string, to check script tags: Check for angle brackets */
         Pattern pattern1 = Pattern.compile("[<>]");
-        Matcher matcher = pattern1.matcher(str1);
+        Matcher matcher = pattern1.matcher(strInput);
         if (matcher.find()) {
             // Found black listed tag
             throw new IllegalStateException();
@@ -33,7 +35,7 @@ public class HelloWorld {
         }
 
         // Normalize the input string
-        str1 = Normalizer.normalize(str1, Normalizer.Form.NFKC);
+        strInput = Normalizer.normalize(strInput, Normalizer.Form.NFKC);
     }
 
     /*
