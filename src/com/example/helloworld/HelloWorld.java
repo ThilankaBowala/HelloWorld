@@ -26,7 +26,8 @@ public class HelloWorld {
 
         /* Validate the input string, to check script tags: Check for angle brackets */
         Pattern pattern1 = Pattern.compile("[<>]");
-        Matcher matcher = pattern1.matcher(strInput);
+        strInput = Normalizer.normalize(strInput, Normalizer.Form.NFKC);
+        Matcher matcher = pattern1.matcher(str1); 
         if (matcher.find()) {
             // Found black listed tag
             throw new IllegalStateException();
@@ -35,7 +36,15 @@ public class HelloWorld {
         }
 
         // Normalize the input string
-        strInput = Normalizer.normalize(strInput, Normalizer.Form.NFKC);
+
+    }
+
+    /*
+     * Example for: THI00-J. Do not invoke Thread.run() method
+     */
+    public void threadRunSample() {
+        Foo foo2 = new Foo();
+        new Thread(foo2).run();
     }
 
     /*
