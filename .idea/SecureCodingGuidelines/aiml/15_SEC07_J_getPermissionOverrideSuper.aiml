@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+	
+	<category>
+		<pattern>*class * extends *</pattern>
+		<template>
+			<think>
+				<set name="extendedClass">true</set>
+				<set name="getPermissionsOverridden">false</set>
+				<set name="createdNewPermissions">false</set>
+				<set name="violatedSEC07_J">false</set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>^protected^PermissionCollection^getPermissions^\(^CodeSource*\)*</pattern>
+		<template>
+			<think>
+				<set name="getPermissionsOverridden">true</set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>*=^new ^Permissions^\(^\)*</pattern>
+		<template>
+			<think>
+				<set name="createdNewPermissions">true</set>
+			</think>
+			
+			<condition name="extendedClass">
+				<li value="true">
+					<think>
+						<condition name="getPermissionsOverridden">
+							<li value="true">
+								<think>
+									<condition name="createdNewPermissions">
+										<li value="true">
+											<think><set name="violatedSEC07_J">true</set></think>
+										</li>
+									</condition>
+								</think>
+							</li>
+						</condition>
+					</think>
+				</li>
+			</condition>
+		
+			<condition name="violatedSEC07_J">
+				<li value="true">
+					SEC07-J,Correction: Please call super.getPermissions() method instead of calling Permissions constructor
+				</li>
+			</condition>
+		</template>
+	</category>
+</aiml>
