@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+	
+	<category>
+		<pattern>File * = new File\(^\);</pattern>
+		<template>
+			<think>
+				<set name="fileVar"><star index="1"/></set>
+				<set name="safeDeleted">false</set>
+				<set name="fileUnsafeDelete">false</set>
+				<set name="deletedObjectName"></set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>^if^\(\!*\.delete\(^\)\)^</pattern>
+		<template>
+			<think>
+				<set name="deletedObjectName"><star index="1"/></set>
+				<set name="safeDeleted">true</set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>*.delete^\(^\)^;</pattern>
+		<template>
+			<think>
+				<set name="deletedObjectName"><star index="1"/></set>
+				<set name="safeDeleted">false</set>
+			</think>
+			
+			<condition name="deletedObjectName" value="fileVar">
+				<condition name="safeDeleted">
+					<li value="false">
+						<think><set name="fileUnsafeDelete">true</set></think>
+					</li>
+				</condition>
+			</condition>
+			
+			<condition name="fileUnsafeDelete">
+				<li value="true">
+					FIO02-J ,Correction: Please check the output value of file delete: '<get name="deletedObjectName"/>'
+				</li>
+			</condition>
+		</template>
+	</category>
+</aiml>
