@@ -1,5 +1,6 @@
 package com.example.helloworld;
 
+import java.math.BigDecimal;
 import java.text.Normalizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,6 +54,14 @@ public class HelloWorld {
         for (float i = 0; i < 5.0f; i++) {
             System.out.println(i);
         }
+    }
+
+    /*
+     * Example for: NUM10-J. Do not construct BigDecimal objects from floating-point literals
+     */
+    public void constructBigDecimal() {
+        System.out.println(new BigDecimal(0.1));
+        System.out.println(new BigDecimal("0.1"));
     }
 
     /*
