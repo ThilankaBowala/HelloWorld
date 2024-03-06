@@ -9,10 +9,11 @@ public final class Foo implements Runnable {
     }
 }
 
- class A {
-     // Example for: THI00-J. Do not invoke Thread.run() method
-     public void threadRunSample() {
-         Foo foo2 = new Foo();
-         new Thread(foo2).run();
-     }
+class A {
+    // Example for: THI00-J. Do not invoke Thread.run() method
+    public void threadRunSample() {
+        Object foo2 = new Object();
+        Foo foo3 = new Foo();
+        new Thread(foo3).run();
+    }
 }
