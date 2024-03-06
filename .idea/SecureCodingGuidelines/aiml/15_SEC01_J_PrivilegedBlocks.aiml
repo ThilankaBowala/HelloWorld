@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+	
+	<category>
+		<pattern>* * *\(final String *\)</pattern>
+		<template>
+			<think>
+				<set name="finalStringParameter"><star index="4"/></set>
+				<set name="PrivilegedBlock">false</set>
+				<set name="PrivilegedAction">false</set>
+				<set name="PrivilegedActionReturnedUnsafe">false</set>
+				<set name="pathOfReturnedFileInput"></set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>* AccessController.doPrivileged^\(^</pattern>
+		<template>
+			<think>
+				<set name="PrivilegedBlock">true</set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>^new^PrivilegedExceptionAction\(^\)^</pattern>
+		<template>
+			<think>
+				<set name="PrivilegedAction">true</set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>return^new^FileInputStream\(*\);^</pattern>
+		<template>
+			<think>
+				<set name="pathOfReturnedFileInput"><star index="3"/></set>
+			</think>
+			
+			<condition name="pathOfReturnedFileInput" value="finalStringParameter">
+				<condition name="PrivilegedAction">
+					<li value="true">
+						<think><set name="PrivilegedActionReturnedUnsafe">true</set></think>
+					</li>
+				</condition>
+			</condition>
+			
+			<condition name="PrivilegedActionReturnedUnsafe" value="PrivilegedBlock">
+				<li value="true">
+					SEC01-J ,Correction: Please clean file name and path: '<get name="finalStringParameter"/>' before creating FileInputStream inside Privileged block
+				</li>
+			</condition>
+		</template>
+	</category>
+
+</aiml>
