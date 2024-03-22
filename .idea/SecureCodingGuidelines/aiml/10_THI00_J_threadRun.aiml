@@ -6,9 +6,6 @@
 		<template>
 			<think>
 				<set name="runnableClassName"><star index="2"/></set>
-				<set name="runnableInstanceName"></set>
-				<set name="calledRun">false</set>
-				<set name="invokedThreadRun">false</set>
 			</think>
 		</template>
 	</category>
@@ -19,6 +16,9 @@
 			<think>
 				<set name="className"><star index="3"/></set>
 				<set name="instanceName"><star index="2"/></set>
+				<set name="runnableInstanceName"></set>
+				<set name="calledRun">false</set>
+				<set name="invokedThreadRun">false</set>
 			</think>
 			
 			<condition name="className" value="runnableClassName">
